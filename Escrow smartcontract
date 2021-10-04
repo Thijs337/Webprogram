@@ -1,0 +1,33 @@
+pragma solidity ^0.5.0;
+
+contract Escrow {
+    //Dit is de "middelman" die de enige rechten heeft om deze smartcontract te gebruiken.
+    
+    address agent;
+    
+    //mapping zorgt er voor dat er bijgehouden wordt wat voor deposits er gemaakt zijn.
+    mapping(address => uint256) public deposits;
+    
+    modifier onlyAgent(){
+        // msg.sender moet gelijk zijn aan de agent. De agent kan alleen de fucities uitvoeren.
+        require(msg.sender == agent);
+        _;
+        
+    }
+    
+    constructor() public {
+        //agent is het adress dat de smartcontract deployed. Dit adres wordt dan op de blockchain opgeslagen.
+        agent = msg.sender;
+    }
+    
+    function deposit(address payee) public onlyAgent payable {
+        // amount is gelijk aan de hoeveelheid die er wordt overgemaakt.
+        uint256 amount = msg.value;
+        deposits[payee] = deposits[payee] + amount;
+    }
+    function withdraw(address payable payee) public onlyAgent{
+        uint256 payment = deposits[payee];
+        deposits[payee] = 0;
+        payee.transfer(payment);
+    }
+}
