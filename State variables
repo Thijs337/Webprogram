@@ -1,0 +1,27 @@
+pragma solidity ^0.6.0;
+
+contract MyContract2{
+//state Variables = stored on the blockchain itself
+    uint public MyUint = 1;
+    int public myInt = 1; 
+  //specify how big the number can be. default is uint256
+    uint256 public MyUint256 = 1;
+    uint8 public myUint8 = 1;
+  //There are multiple ways to do certain things. This is to optimize your contract as much as possible 
+    string public myString = "hello world!"; 
+    bytes32 public myBytes32 = "hello world!";
+    address public myAddress = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4; 
+        
+        struct MyStruct {
+            uint myInt;
+            string myString;
+        }
+    MyStruct public myStruct = MyStruct(1, "hello world!");
+        
+    //local Variables = local in this function, stored in memory on this function
+    function getValue() public pure returns(uint){
+        uint value = 1; 
+        return value;
+    }
+    
+}
